@@ -1,0 +1,93 @@
+.create-user-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.create-user-form .form-field {
+  border-radius: 8px;
+}
+
+.create-user-form .MuiOutlinedInput-root {
+  background-color: #f9fafb;
+  color: #374151;
+  border-radius: 8px;
+}
+
+.create-user-form .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+  border-color: transparent;
+}
+
+.create-user-form .MuiOutlinedInput-root:hover {
+  background-color: #3f4b5e;
+}
+
+.create-user-form .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+  border-color: #667eea;
+}
+
+.create-user-form .MuiOutlinedInput-root.Mui-focused {
+  background-color: #3f4b5e;
+}
+
+.create-user-form .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: #667eea;
+  border-width: 2px;
+}
+
+.create-user-form .MuiOutlinedInput-root.Mui-error .MuiOutlinedInput-notchedOutline {
+  border-color: #ef4444;
+}
+
+.create-user-form .MuiInputLabel-root {
+  color: #6b7280;
+}
+
+.create-user-form .MuiInputLabel-root.Mui-focused {
+  color: #667eea;
+}
+
+.create-user-form .MuiInputLabel-root.Mui-error {
+  color: #ef4444;
+}
+
+.create-user-form .MuiFormHelperText-root {
+  color: #6b7280;
+  margin-left: 4px;
+}
+
+.create-user-form .MuiFormHelperText-root.Mui-error {
+  color: #ef4444;
+}
+
+.create-user-form .MuiSelect-icon {
+  color: #6b7280;
+}
+
+.create-user-form .MuiMenu-paper {
+  background-color: #f9fafb;
+  margin-top: 4px;
+}
+
+.create-user-form .MuiMenuItem-root {
+  background-color: #f9fafb;
+  color: #374151;
+  padding: 12px 16px;
+}
+
+.create-user-form .MuiMenuItem-root:hover {
+  background-color: #4a5568;
+}
+
+.create-user-form .MuiMenuItem-root.Mui-selected {
+  background-color: #667eea;
+  color: #ffffff;
+}
+
+.create-user-form .MuiMenuItem-root.Mui-selected:hover {
+  background-color: #5568d3;
+}
+
+.create-user-form .MuiOutlinedInput-input {
+  padding: 14px;
+}

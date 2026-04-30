@@ -1,0 +1,188 @@
+.common-filter-container {
+  position: absolute;
+  top: 10.5rem;
+  right: 1rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 350px;
+  z-index: 1000;
+}
+
+.filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12px 12px 0 0;
+}
+
+.filter-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #ffffff;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.filter-icon {
+  font-size: 1.25rem;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.close-btn:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.close-btn svg {
+  font-size: 1.25rem;
+}
+
+.filter-body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.filter-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.filter-body::-webkit-scrollbar-track {
+  background: #1a202c;
+  border-radius: 3px;
+}
+
+.filter-body::-webkit-scrollbar-thumb {
+  background: #4a5568;
+  border-radius: 3px;
+}
+
+.filter-body::-webkit-scrollbar-thumb:hover {
+  background: #667eea;
+}
+
+.filter-item {
+  width: 100%;
+}
+
+.filter-field .MuiOutlinedInput-root {
+  background-color: #f9fafb;
+  color: #374151;
+  border-radius: 8px;
+}
+
+.filter-field .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+  border-color: transparent;
+}
+
+.filter-field .MuiOutlinedInput-root:hover {
+  background-color: #3f4b5e;
+}
+
+.filter-field .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+  border-color: #667eea;
+}
+
+.filter-field .MuiOutlinedInput-root.Mui-focused {
+  background-color: #3f4b5e;
+}
+
+.filter-field .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: #667eea;
+  border-width: 2px;
+}
+
+.filter-field .MuiInputLabel-root {
+  color: #6b7280;
+}
+
+.filter-field .MuiInputLabel-root.Mui-focused {
+  color: #667eea;
+}
+
+.filter-field .MuiSelect-icon {
+  color: #6b7280;
+}
+
+.filter-field .MuiOutlinedInput-input {
+  padding: 14px;
+}
+
+.filter-actions {
+  display: flex;
+  gap: 0.75rem;
+  padding: 1.25rem 1.5rem;
+  background-color: #ffffff;
+  border-top: 1px solid #4a5568;
+  border-radius: 0 0 12px 12px;
+}
+
+.filter-actions .MuiButton-root {
+  flex: 1;
+  text-transform: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.filter-actions .reset-btn {
+  border-color: #4a5568;
+  color: #cbd5e0;
+  background-color: transparent;
+}
+
+.filter-actions .reset-btn:hover {
+  background-color: #f9fafb;
+  border-color: #5a6678;
+}
+
+.filter-actions .apply-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.filter-actions .apply-btn:hover {
+  background: linear-gradient(135deg, #5568d3 0%, #653a8b 100%);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .common-filter-container {
+    max-width: 100%;
+    margin: 0;
+  }
+
+  .filter-header {
+    padding: 1rem 1.25rem;
+  }
+
+  .filter-body {
+    padding: 1.25rem;
+  }
+
+  .filter-actions {
+    padding: 1rem 1.25rem;
+  }
+}

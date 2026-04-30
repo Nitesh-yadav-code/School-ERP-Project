@@ -1,0 +1,75 @@
+.common-modal .modal-paper {
+  border-radius: 12px;
+  background-color: #ffffff;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.common-modal .modal-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #ffffff;
+  font-size: 1.25rem;
+  font-weight: 600;
+  border-radius: 12px 12px 0 0;
+}
+
+.common-modal .modal-title span {
+  flex: 1;
+}
+
+.common-modal .close-button {
+  color: #ffffff;
+  padding: 6px;
+  margin-left: 1rem;
+}
+
+.common-modal .close-button:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.common-modal .modal-content {
+  padding: 2rem;
+  background-color: #ffffff;
+  color: #374151;
+}
+
+.common-modal .modal-actions {
+  padding: 1.25rem 2rem;
+  background-color: #ffffff;
+  border-top: 1px solid #4a5568;
+  gap: 0.75rem;
+  border-radius: 0 0 12px 12px;
+}
+
+.common-modal .modal-actions .MuiButton-root {
+  text-transform: none;
+  border-radius: 8px;
+  padding: 10px 24px;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.common-modal .modal-actions .MuiButton-contained {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.common-modal .modal-actions .MuiButton-contained:hover {
+  background: linear-gradient(135deg, #5568d3 0%, #653a8b 100%);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.common-modal .modal-actions .MuiButton-outlined {
+  border-color: #4a5568;
+  color: #cbd5e0;
+  background-color: transparent;
+}
+
+.common-modal .modal-actions .MuiButton-outlined:hover {
+  background-color: #f9fafb;
+  border-color: #5a6678;
+}
