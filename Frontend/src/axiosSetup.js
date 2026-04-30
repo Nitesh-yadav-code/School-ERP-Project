@@ -1,8 +1,9 @@
 import axios from "axios";
-
+// "https://school-erp-system-45i6.onrender.com/ // old
+// https://school-erp-project.onrender.com/ // new
 
 const api = axios.create({
-    baseURL: "https://school-erp-system-45i6.onrender.com/"
+    baseURL: "https://school-erp-project.onrender.com"
 })
 
 
