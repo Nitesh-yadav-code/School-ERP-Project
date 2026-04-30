@@ -195,6 +195,7 @@ const FeeCollection = () => {
                     </SectionTitle>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={4}>
+                            <Box sx={{ flex: "1 1 180px", minWidth: 160 }}>
                             <TextField
                                 fullWidth
                                 select
@@ -212,8 +213,10 @@ const FeeCollection = () => {
                                     </MenuItem>
                                 ))}
                             </TextField>
+                            </Box>
                         </Grid>
                         <Grid item xs={12} sm={4}>
+                             <Box sx={{ flex: "1 1 180px", minWidth: 160 }}>
                             <TextField
                                 fullWidth
                                 select
@@ -232,8 +235,10 @@ const FeeCollection = () => {
                                     </MenuItem>
                                 ))}
                             </TextField>
+                            </Box>
                         </Grid>
                         <Grid item xs={12} sm={4}>
+                            <Box sx={{ flex: "1 1 180px", minWidth: 160 }}>
                             <TextField
                                 fullWidth
                                 select
@@ -252,6 +257,7 @@ const FeeCollection = () => {
                                     </MenuItem>
                                 ))}
                             </TextField>
+                            </Box>
                         </Grid>
                     </Grid>
                 </SectionBox>

@@ -4,6 +4,7 @@ import axios from "axios";
 
 const api = axios.create({
     baseURL: "https://school-erp-project.onrender.com"
+    // baseURL: "http://localhost:5000"
 })
 
 

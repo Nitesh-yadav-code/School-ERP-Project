@@ -251,6 +251,7 @@ const AssignTeacherModal = ({ open, onClose, teacher, onSuccess }) => {
                     </SectionTitle>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>
+                            <Box sx={{ flex: "1 1 180px", minWidth: 160 }}>
                             <TextField
                                 fullWidth
                                 select
@@ -267,6 +268,7 @@ const AssignTeacherModal = ({ open, onClose, teacher, onSuccess }) => {
                                     <MenuItem key={cls._id} value={cls._id}>{cls.name}</MenuItem>
                                 ))}
                             </TextField>
+                            </Box>
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
@@ -316,6 +318,7 @@ const AssignTeacherModal = ({ open, onClose, teacher, onSuccess }) => {
                             </TextField>
                         </Grid>
                         <Grid item xs={12} sm={6}>
+                            <Box sx={{ flex: "1 1 180px", minWidth: 160 }}>
                             <TextField
                                 fullWidth
                                 select
@@ -333,6 +336,7 @@ const AssignTeacherModal = ({ open, onClose, teacher, onSuccess }) => {
                                     <MenuItem key={sec._id} value={sec._id}>{sec.name}</MenuItem>
                                 ))}
                             </TextField>
+                            </Box>
                         </Grid>
                     </Grid>
                 </SectionBox>

@@ -51,6 +51,14 @@ export const getEnrollStudents = async(req, res)=>{
       path: "studentId",
       select: "firstName lastName" 
     })
+    .populate({
+      path:"classId",
+      select: "name"
+    })
+    .populate({
+      path:"sectionId",
+      select: "name"
+    })
 
     res.status(200).json({message: 'Students fetch Sucessfully', enrollments})
   } catch (error) {

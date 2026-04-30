@@ -302,6 +302,7 @@ const FeeStructureModal = ({ open, onClose, onSuccess, editData = null, classes:
                     </SectionTitle>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>
+                            <Box sx={{ flex: "1 1 180px", minWidth: 160 }}>
                             <TextField
                                 fullWidth
                                 select
@@ -319,6 +320,7 @@ const FeeStructureModal = ({ open, onClose, onSuccess, editData = null, classes:
                                     <MenuItem key={cls._id} value={cls._id}>{cls.name}</MenuItem>
                                 ))}
                             </TextField>
+                            </Box>
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField

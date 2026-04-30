@@ -3,5 +3,18 @@
     "jspdf": "^3.0.4",
     "jspdf-autotable": "^5.0.2",
     "xlsx": "^0.18.5"
+  },
+  "name": "school-erp-system",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run dev --prefix Backend\" \"npm run dev --prefix Frontend\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "concurrently": "^9.2.1"
   }
 }

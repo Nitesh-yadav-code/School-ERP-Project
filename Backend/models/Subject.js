@@ -7,6 +7,10 @@ const SubjectSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    code: {
+      type: String,
+      default: "",
+    },
 
     description: {
       type: String,

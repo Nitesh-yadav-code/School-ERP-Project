@@ -171,6 +171,7 @@ const AddClassSubjectModal = ({ open, onClose, onSuccess }) => {
                     </SectionTitle>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
+                            <Box sx={{ flex: "1 1 180px", minWidth: 160 }}>
                             <TextField
                                 fullWidth
                                 select
@@ -189,8 +190,10 @@ const AddClassSubjectModal = ({ open, onClose, onSuccess }) => {
                                     </MenuItem>
                                 ))}
                             </TextField>
+                            </Box>
                         </Grid>
                         <Grid item xs={12}>
+                            <Box sx={{ flex: "1 1 180px", minWidth: 160 }}>
                             <TextField
                                 fullWidth
                                 select
@@ -207,6 +210,7 @@ const AddClassSubjectModal = ({ open, onClose, onSuccess }) => {
                                     <MenuItem key={sub._id} value={sub._id}>{sub.name}</MenuItem>
                                 ))}
                             </TextField>
+                            </Box>
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
