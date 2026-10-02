@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import CommonTable from '../../commonComponents/CommonTable';
 import { FiEye, FiFilter, FiCheckCircle, FiCalendar, FiUsers, FiXCircle, FiClock, FiSearch, FiUser, FiPercent } from "react-icons/fi";
 import { FaFilePdf, FaFileCsv, FaFileExcel } from "react-icons/fa";
@@ -29,14 +30,19 @@ import { toast } from 'react-toastify';
 import studentService from '../../services/studentService';
 
 // Styled Components
-const PageHeader = styled(Box)({
+const PageHeader = styled(Box)(({ theme }) => ({
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: "24px",
-});
+    [theme.breakpoints.down('sm')]: {
+        flexDirection: "column",
+        alignItems: "stretch",
+        gap: "12px",
+    },
+}));
 
-const StyledTabs = styled(Tabs)({
+const StyledTabs = styled(Tabs)(({ theme }) => ({
     marginBottom: '24px',
     backgroundColor: '#ffffff',
     borderRadius: '12px',
@@ -45,7 +51,10 @@ const StyledTabs = styled(Tabs)({
     '& .MuiTabs-indicator': {
         display: 'none',
     },
-});
+    [theme.breakpoints.down('sm')]: {
+        borderRadius: '10px',
+    },
+}));
 
 const StyledTab = styled(Tab)(({ theme }) => ({
     textTransform: 'none',
@@ -63,9 +72,14 @@ const StyledTab = styled(Tab)(({ theme }) => ({
     '&:hover:not(.Mui-selected)': {
         backgroundColor: '#f3f4f6',
     },
+    [theme.breakpoints.down('sm')]: {
+        fontSize: '0.8rem',
+        padding: '6px 14px',
+        minHeight: '36px',
+    },
 }));
 
-const FilterBox = styled(Box)({
+const FilterBox = styled(Box)(({ theme }) => ({
     display: "flex",
     gap: "16px",
     alignItems: "center",
@@ -76,7 +90,14 @@ const FilterBox = styled(Box)({
     marginBottom: "24px",
     border: "1px solid #e5e7eb",
     boxShadow: "0 1px 3px rgba(0, 0, 0, 0.05)",
-});
+    [theme.breakpoints.down('sm')]: {
+        flexDirection: "column",
+        alignItems: "stretch",
+        padding: "16px",
+        gap: "12px",
+        borderRadius: "12px",
+    },
+}));
 
 const StatsCard = styled(Card)(({ gradient }) => ({
     background: gradient || "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
@@ -91,8 +112,9 @@ const StatsCard = styled(Card)(({ gradient }) => ({
     },
 }));
 
-const inputStyles = {
-    minWidth: 160,
+const getInputStyles = (isMobile) => ({
+    minWidth: isMobile ? 'unset' : 160,
+    width: isMobile ? '100%' : 'auto',
     "& .MuiOutlinedInput-root": {
         bgcolor: "#f9fafb",
         color: "#374151",
@@ -102,7 +124,32 @@ const inputStyles = {
         "&.Mui-focused fieldset": { borderColor: "#667eea" },
     },
     "& .MuiInputLabel-root": { color: "#6b7280" },
-};
+});
+
+// Reusable Stats Card Content - responsive by default
+const StatsCardContent = ({ icon, value, label }) => (
+    <CardContent sx={{ display: "flex", alignItems: "center", gap: { xs: 1.5, sm: 2 }, py: { xs: 1.5, sm: 2 }, px: { xs: 1.5, sm: 2 } }}>
+        <Box sx={{
+            width: { xs: 36, sm: 44 },
+            height: { xs: 36, sm: 44 },
+            borderRadius: "10px",
+            bgcolor: "rgba(255,255,255,0.2)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+        }}>
+            {icon}
+        </Box>
+        <Box sx={{ minWidth: 0 }}>
+            <Typography sx={{ fontWeight: 700, fontSize: { xs: '1.5rem', sm: '2.125rem' }, lineHeight: 1.2 }}>
+                {value}
+            </Typography>
+            <Typography variant="body2" sx={{ opacity: 0.9, fontSize: { xs: '0.7rem', sm: '0.875rem' } }}>
+                {label}
+            </Typography>
+        </Box>
+    </CardContent>
+);
 
 // Status Chip Component
 const StatusChip = ({ status }) => {
@@ -214,6 +261,10 @@ const studentReportColumns = [
 ];
 
 const Attendance = () => {
+    // Responsive
+    const isMobile = useMediaQuery('(max-width:600px)');
+    const inputStyles = getInputStyles(isMobile);
+
     // Tab state
     const [activeTab, setActiveTab] = useState(0);
 
@@ -565,17 +616,20 @@ const Attendance = () => {
             {/* Page Header */}
             <PageHeader>
                 <Box>
-                    <Typography variant="h5" sx={{ fontWeight: 700, color: "#1f2937", mb: 0.5 }}>
+                    <Typography variant={isMobile ? "h6" : "h5"} sx={{ fontWeight: 700, color: "#1f2937", mb: 0.5 }}>
                         Attendance Management
                     </Typography>
-                    <Typography variant="body2" sx={{ color: "#6b7280" }}>
-                        Track and manage daily student attendance
-                    </Typography>
+                    {!isMobile && (
+                        <Typography variant="body2" sx={{ color: "#6b7280" }}>
+                            Track and manage daily student attendance
+                        </Typography>
+                    )}
                 </Box>
                 <Button
                     variant="contained"
                     onClick={() => setMarkModalOpen(true)}
                     startIcon={<FiCheckCircle size={16} />}
+                    fullWidth={isMobile}
                     sx={{
                         background: "linear-gradient(135deg, #22c55e 0%, #16a34a 100%)",
                         textTransform: "none",
@@ -593,7 +647,11 @@ const Attendance = () => {
             </PageHeader>
 
             {/* Tab Navigation */}
-            <StyledTabs value={activeTab} onChange={handleTabChange}>
+            <StyledTabs
+                value={activeTab}
+                onChange={handleTabChange}
+                variant={isMobile ? "fullWidth" : "standard"}
+            >
                 <StyledTab label="Daily Attendance" />
                 <StyledTab label="Attendance Report" />
             </StyledTabs>
@@ -603,105 +661,25 @@ const Attendance = () => {
                 <>
                     {/* Stats Cards */}
                     {attendanceData.length > 0 && (
-                        <Grid container spacing={3} sx={{ mb: 3 }}>
+                        <Grid container spacing={isMobile ? 1.5 : 3} sx={{ mb: 3 }}>
                             <Grid item xs={6} sm={3}>
                                 <StatsCard gradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
-                                    <CardContent sx={{ display: "flex", alignItems: "center", gap: 2, py: 2 }}>
-                                        <Box sx={{
-                                            width: 44,
-                                            height: 44,
-                                            borderRadius: "10px",
-                                            bgcolor: "rgba(255,255,255,0.2)",
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "center",
-                                        }}>
-                                            <FiUsers size={22} />
-                                        </Box>
-                                        <Box>
-                                            <Typography variant="h4" sx={{ fontWeight: 700 }}>
-                                                {stats.total}
-                                            </Typography>
-                                            <Typography variant="body2" sx={{ opacity: 0.9 }}>
-                                                Total
-                                            </Typography>
-                                        </Box>
-                                    </CardContent>
+                                    <StatsCardContent icon={<FiUsers size={22} />} value={stats.total} label="Total" />
                                 </StatsCard>
                             </Grid>
                             <Grid item xs={6} sm={3}>
                                 <StatsCard gradient="linear-gradient(135deg, #22c55e 0%, #16a34a 100%)">
-                                    <CardContent sx={{ display: "flex", alignItems: "center", gap: 2, py: 2 }}>
-                                        <Box sx={{
-                                            width: 44,
-                                            height: 44,
-                                            borderRadius: "10px",
-                                            bgcolor: "rgba(255,255,255,0.2)",
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "center",
-                                        }}>
-                                            <FiCheckCircle size={22} />
-                                        </Box>
-                                        <Box>
-                                            <Typography variant="h4" sx={{ fontWeight: 700 }}>
-                                                {stats.present}
-                                            </Typography>
-                                            <Typography variant="body2" sx={{ opacity: 0.9 }}>
-                                                Present
-                                            </Typography>
-                                        </Box>
-                                    </CardContent>
+                                    <StatsCardContent icon={<FiCheckCircle size={22} />} value={stats.present} label="Present" />
                                 </StatsCard>
                             </Grid>
                             <Grid item xs={6} sm={3}>
                                 <StatsCard gradient="linear-gradient(135deg, #ef4444 0%, #dc2626 100%)">
-                                    <CardContent sx={{ display: "flex", alignItems: "center", gap: 2, py: 2 }}>
-                                        <Box sx={{
-                                            width: 44,
-                                            height: 44,
-                                            borderRadius: "10px",
-                                            bgcolor: "rgba(255,255,255,0.2)",
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "center",
-                                        }}>
-                                            <FiXCircle size={22} />
-                                        </Box>
-                                        <Box>
-                                            <Typography variant="h4" sx={{ fontWeight: 700 }}>
-                                                {stats.absent}
-                                            </Typography>
-                                            <Typography variant="body2" sx={{ opacity: 0.9 }}>
-                                                Absent
-                                            </Typography>
-                                        </Box>
-                                    </CardContent>
+                                    <StatsCardContent icon={<FiXCircle size={22} />} value={stats.absent} label="Absent" />
                                 </StatsCard>
                             </Grid>
                             <Grid item xs={6} sm={3}>
                                 <StatsCard gradient="linear-gradient(135deg, #f59e0b 0%, #d97706 100%)">
-                                    <CardContent sx={{ display: "flex", alignItems: "center", gap: 2, py: 2 }}>
-                                        <Box sx={{
-                                            width: 44,
-                                            height: 44,
-                                            borderRadius: "10px",
-                                            bgcolor: "rgba(255,255,255,0.2)",
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "center",
-                                        }}>
-                                            <FiClock size={22} />
-                                        </Box>
-                                        <Box>
-                                            <Typography variant="h4" sx={{ fontWeight: 700 }}>
-                                                {stats.leave}
-                                            </Typography>
-                                            <Typography variant="body2" sx={{ opacity: 0.9 }}>
-                                                Leave
-                                            </Typography>
-                                        </Box>
-                                    </CardContent>
+                                    <StatsCardContent icon={<FiClock size={22} />} value={stats.leave} label="Leave" />
                                 </StatsCard>
                             </Grid>
                         </Grid>
@@ -747,7 +725,7 @@ const Attendance = () => {
                             onChange={handleFilterChange}
                             placeholder="2024-25"
                             size="small"
-                            sx={{ ...inputStyles, width: 130 }}
+                            sx={{ ...inputStyles, width: isMobile ? '100%' : 130 }}
                         />
 
                         <TextField
@@ -780,6 +758,7 @@ const Attendance = () => {
                             variant="contained"
                             onClick={fetchAttendance}
                             disabled={searchLoading}
+                            fullWidth={isMobile}
                             startIcon={searchLoading ? <CircularProgress size={16} color="inherit" /> : <FiSearch size={16} />}
                             sx={{
                                 background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
@@ -797,7 +776,7 @@ const Attendance = () => {
                         </Button>
 
                         {/* Export buttons */}
-                        <Box sx={{ display: "flex", gap: 1, ml: "auto" }}>
+                        <Box sx={{ display: "flex", gap: 1, ml: { xs: 0, sm: "auto" }, justifyContent: { xs: "center", sm: "flex-end" } }}>
                             <Tooltip title="Export Excel" arrow>
                                 <IconButton size="small" onClick={() => handleButtonAction('excel')}>
                                     <FaFileExcel style={{ color: "#16a34a" }} />
@@ -871,130 +850,30 @@ const Attendance = () => {
                 <>
                     {/* Student Stats Cards */}
                     {studentAttendanceData.length > 0 && (
-                        <Grid container spacing={3} sx={{ mb: 3 }}>
+                        <Grid container spacing={isMobile ? 1.5 : 3} sx={{ mb: 3 }}>
                             <Grid item xs={6} sm={2.4}>
                                 <StatsCard gradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
-                                    <CardContent sx={{ display: "flex", alignItems: "center", gap: 2, py: 2 }}>
-                                        <Box sx={{
-                                            width: 44,
-                                            height: 44,
-                                            borderRadius: "10px",
-                                            bgcolor: "rgba(255,255,255,0.2)",
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "center",
-                                        }}>
-                                            <FiUsers size={22} />
-                                        </Box>
-                                        <Box>
-                                            <Typography variant="h4" sx={{ fontWeight: 700 }}>
-                                                {studentStats.total}
-                                            </Typography>
-                                            <Typography variant="body2" sx={{ opacity: 0.9 }}>
-                                                Total Days
-                                            </Typography>
-                                        </Box>
-                                    </CardContent>
+                                    <StatsCardContent icon={<FiUsers size={22} />} value={studentStats.total} label="Total Days" />
                                 </StatsCard>
                             </Grid>
                             <Grid item xs={6} sm={2.4}>
                                 <StatsCard gradient="linear-gradient(135deg, #22c55e 0%, #16a34a 100%)">
-                                    <CardContent sx={{ display: "flex", alignItems: "center", gap: 2, py: 2 }}>
-                                        <Box sx={{
-                                            width: 44,
-                                            height: 44,
-                                            borderRadius: "10px",
-                                            bgcolor: "rgba(255,255,255,0.2)",
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "center",
-                                        }}>
-                                            <FiCheckCircle size={22} />
-                                        </Box>
-                                        <Box>
-                                            <Typography variant="h4" sx={{ fontWeight: 700 }}>
-                                                {studentStats.present}
-                                            </Typography>
-                                            <Typography variant="body2" sx={{ opacity: 0.9 }}>
-                                                Present
-                                            </Typography>
-                                        </Box>
-                                    </CardContent>
+                                    <StatsCardContent icon={<FiCheckCircle size={22} />} value={studentStats.present} label="Present" />
                                 </StatsCard>
                             </Grid>
                             <Grid item xs={6} sm={2.4}>
                                 <StatsCard gradient="linear-gradient(135deg, #ef4444 0%, #dc2626 100%)">
-                                    <CardContent sx={{ display: "flex", alignItems: "center", gap: 2, py: 2 }}>
-                                        <Box sx={{
-                                            width: 44,
-                                            height: 44,
-                                            borderRadius: "10px",
-                                            bgcolor: "rgba(255,255,255,0.2)",
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "center",
-                                        }}>
-                                            <FiXCircle size={22} />
-                                        </Box>
-                                        <Box>
-                                            <Typography variant="h4" sx={{ fontWeight: 700 }}>
-                                                {studentStats.absent}
-                                            </Typography>
-                                            <Typography variant="body2" sx={{ opacity: 0.9 }}>
-                                                Absent
-                                            </Typography>
-                                        </Box>
-                                    </CardContent>
+                                    <StatsCardContent icon={<FiXCircle size={22} />} value={studentStats.absent} label="Absent" />
                                 </StatsCard>
                             </Grid>
                             <Grid item xs={6} sm={2.4}>
                                 <StatsCard gradient="linear-gradient(135deg, #f59e0b 0%, #d97706 100%)">
-                                    <CardContent sx={{ display: "flex", alignItems: "center", gap: 2, py: 2 }}>
-                                        <Box sx={{
-                                            width: 44,
-                                            height: 44,
-                                            borderRadius: "10px",
-                                            bgcolor: "rgba(255,255,255,0.2)",
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "center",
-                                        }}>
-                                            <FiClock size={22} />
-                                        </Box>
-                                        <Box>
-                                            <Typography variant="h4" sx={{ fontWeight: 700 }}>
-                                                {studentStats.leave}
-                                            </Typography>
-                                            <Typography variant="body2" sx={{ opacity: 0.9 }}>
-                                                Leave
-                                            </Typography>
-                                        </Box>
-                                    </CardContent>
+                                    <StatsCardContent icon={<FiClock size={22} />} value={studentStats.leave} label="Leave" />
                                 </StatsCard>
                             </Grid>
                             <Grid item xs={6} sm={2.4}>
                                 <StatsCard gradient="linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)">
-                                    <CardContent sx={{ display: "flex", alignItems: "center", gap: 2, py: 2 }}>
-                                        <Box sx={{
-                                            width: 44,
-                                            height: 44,
-                                            borderRadius: "10px",
-                                            bgcolor: "rgba(255,255,255,0.2)",
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "center",
-                                        }}>
-                                            <FiPercent size={22} />
-                                        </Box>
-                                        <Box>
-                                            <Typography variant="h4" sx={{ fontWeight: 700 }}>
-                                                {studentStats.percentage}%
-                                            </Typography>
-                                            <Typography variant="body2" sx={{ opacity: 0.9 }}>
-                                                Attendance
-                                            </Typography>
-                                        </Box>
-                                    </CardContent>
+                                    <StatsCardContent icon={<FiPercent size={22} />} value={`${studentStats.percentage}%`} label="Attendance" />
                                 </StatsCard>
                             </Grid>
                         </Grid>
@@ -1040,7 +919,7 @@ const Attendance = () => {
                             onChange={handleStudentReportFilterChange}
                             placeholder="2024-25"
                             size="small"
-                            sx={{ ...inputStyles, width: 130 }}
+                            sx={{ ...inputStyles, width: isMobile ? '100%' : 130 }}
                         />
 
                         <TextField
@@ -1051,7 +930,7 @@ const Attendance = () => {
                             onChange={handleStudentReportFilterChange}
                             size="small"
                             disabled={fetchingEnrollments || studentEnrollments.length === 0}
-                            sx={{ ...inputStyles, minWidth: 200 }}
+                            sx={{ ...inputStyles, minWidth: isMobile ? 'unset' : 200 }}
                         >
                             <MenuItem value="">
                                 <em>{fetchingEnrollments ? "Loading..." : "Select Student"}</em>
@@ -1094,6 +973,7 @@ const Attendance = () => {
                             variant="contained"
                             onClick={fetchStudentAttendance}
                             disabled={studentSearchLoading || !studentReportFilters.studentEnrollmentId}
+                            fullWidth={isMobile}
                             startIcon={studentSearchLoading ? <CircularProgress size={16} color="inherit" /> : <FiSearch size={16} />}
                             sx={{
                                 background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
@@ -1111,7 +991,7 @@ const Attendance = () => {
                         </Button>
 
                         {/* Export buttons */}
-                        <Box sx={{ display: "flex", gap: 1, ml: "auto" }}>
+                        <Box sx={{ display: "flex", gap: 1, ml: { xs: 0, sm: "auto" }, justifyContent: { xs: "center", sm: "flex-end" } }}>
                             <Tooltip title="Export Excel" arrow>
                                 <IconButton size="small" onClick={() => exportData('excel', studentAttendanceData, studentReportColumns, 'student_attendance', 'Student Attendance')}>
                                     <FaFileExcel style={{ color: "#16a34a" }} />

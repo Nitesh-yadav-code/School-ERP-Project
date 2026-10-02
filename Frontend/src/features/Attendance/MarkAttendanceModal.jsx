@@ -80,6 +80,11 @@ const StudentCard = styled(Box)(({ status }) => {
     alignItems: "center",
     justifyContent: "space-between",
     transition: "all 0.2s ease",
+    "@media (max-width: 600px)": {
+      flexDirection: "column",
+      alignItems: "stretch",
+      gap: "10px",
+    },
   };
 });
 
@@ -91,12 +96,16 @@ const StatusButton = styled(IconButton)(({ active, variant }) => {
   };
   const color = colors[variant] || colors.Present;
   return {
-    width: 36,
-    height: 36,
+    width: 40,
+    height: 40,
     backgroundColor: active ? color.bg : "#e5e7eb",
     color: active ? "#ffffff" : "#6b7280",
     "&:hover": {
       backgroundColor: active ? color.hover : "#d1d5db",
+    },
+    "@media (max-width: 600px)": {
+      width: 44,
+      height: 44,
     },
   };
 });
@@ -437,7 +446,9 @@ const MarkAttendanceModal = ({ open, onClose, onSuccess }) => {
             sx={{
               display: "flex",
               justifyContent: "space-between",
-              alignItems: "center",
+              alignItems: { xs: "flex-start", sm: "center" },
+              flexDirection: { xs: "column", sm: "row" },
+              gap: { xs: 1, sm: 0 },
               mb: 2,
             }}
           >
@@ -562,7 +573,7 @@ const MarkAttendanceModal = ({ open, onClose, onSuccess }) => {
                       </Typography>
                     </Box>
                   </Box>
-                  <Box sx={{ display: "flex", gap: 1 }}>
+                  <Box sx={{ display: "flex", gap: 1, justifyContent: { xs: "center", sm: "flex-end" } }}>
                     <Tooltip title="Present" arrow>
                       <StatusButton
                         variant="Present"

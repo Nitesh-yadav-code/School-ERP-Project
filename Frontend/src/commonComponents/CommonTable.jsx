@@ -13,6 +13,7 @@ import {
   IconButton,
   Tooltip,
   styled,
+  useMediaQuery,
 } from "@mui/material";
 import {
   KeyboardArrowUp,
@@ -146,6 +147,52 @@ const EmptyStateBox = styled(Box)(({ theme }) => ({
   color: "#9ca3af",
 }));
 
+// Mobile Card View Styles
+const MobileCardList = styled(Box)({
+  display: "flex",
+  flexDirection: "column",
+  gap: "12px",
+  padding: "12px",
+});
+
+const MobileCard = styled(Box)({
+  backgroundColor: "#ffffff",
+  borderRadius: "12px",
+  padding: "16px",
+  border: "1px solid #e5e7eb",
+  boxShadow: "0 1px 3px rgba(0, 0, 0, 0.05)",
+  transition: "box-shadow 0.2s ease",
+  "&:hover": {
+    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+  },
+});
+
+const MobileCardRow = styled(Box)({
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  padding: "6px 0",
+  "&:not(:last-child)": {
+    borderBottom: "1px solid #f1f5f9",
+  },
+});
+
+const MobileCardLabel = styled(Typography)({
+  fontSize: "0.75rem",
+  fontWeight: 600,
+  color: "#9ca3af",
+  textTransform: "uppercase",
+  letterSpacing: "0.5px",
+});
+
+const MobileCardValue = styled(Box)({
+  fontSize: "0.875rem",
+  fontWeight: 600,
+  color: "#374151",
+  textAlign: "right",
+  maxWidth: "60%",
+});
+
 const CommonTable = ({
   columns = [],
   data = [],
@@ -157,6 +204,7 @@ const CommonTable = ({
   emptyMessage = "No data available",
   headerColor = "#4f46e5", // Customizable header color
 }) => {
+  const isMobile = useMediaQuery("(max-width:600px)");
   const [sortConfig, setSortConfig] = useState(null);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(defaultPageSize);
@@ -236,6 +284,64 @@ const CommonTable = ({
     );
   };
 
+  // Mobile card view
+  if (isMobile) {
+    return (
+      <Paper elevation={0} sx={{ borderRadius: "12px", overflow: "hidden" }}>
+        {paginatedData.length === 0 ? (
+          <EmptyStateBox>
+            <Typography variant="body1" sx={{ fontWeight: 500, color: "#6b7280" }}>
+              {emptyMessage}
+            </Typography>
+            <Typography variant="body2" sx={{ color: "#9ca3af", mt: 0.5 }}>
+              Try adjusting your search or filters
+            </Typography>
+          </EmptyStateBox>
+        ) : (
+          <MobileCardList>
+            {paginatedData.map((row, rowIndex) => (
+              <MobileCard key={row.id || rowIndex}>
+                {columns.map((col) => (
+                  <MobileCardRow key={col.accessor}>
+                    <MobileCardLabel>{col.header}</MobileCardLabel>
+                    <MobileCardValue>
+                      {col.render
+                        ? col.render(getNestedValue(row, col.accessor), row)
+                        : getNestedValue(row, col.accessor) ?? "-"}
+                    </MobileCardValue>
+                  </MobileCardRow>
+                ))}
+                {actions && (
+                  <Box sx={{ display: "flex", justifyContent: "flex-end", pt: 1, mt: 0.5, borderTop: "1px solid #e5e7eb" }}>
+                    {actions(row)}
+                  </Box>
+                )}
+              </MobileCard>
+            ))}
+          </MobileCardList>
+        )}
+
+        {/* Pagination */}
+        {data.length > 0 && (
+          <StyledTablePagination
+            component="div"
+            count={sortedData.length}
+            page={page}
+            onPageChange={handleChangePage}
+            rowsPerPage={rowsPerPage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            rowsPerPageOptions={pageSizeOptions}
+            labelRowsPerPage="Per page:"
+            labelDisplayedRows={({ from, to, count }) =>
+              `${from}-${to} of ${count}`
+            }
+          />
+        )}
+      </Paper>
+    );
+  }
+
+  // Desktop table view
   return (
     <Paper elevation={0} sx={{ borderRadius: "12px", overflow: "hidden" }}>
       <StyledTableContainer

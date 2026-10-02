@@ -47,18 +47,11 @@ export const getEnrollStudents = async(req, res)=>{
       query.accountId = req.tenantAccountId
     ]
     const enrollments = await StudentEnrollment.find(query)
-    .populate({
-      path: "studentId",
-      select: "firstName lastName" 
-    })
-    .populate({
-      path:"classId",
-      select: "name"
-    })
-    .populate({
-      path:"sectionId",
-      select: "name"
-    })
+    .populate([
+      { path: "studentId", select: "firstName lastName" },
+    { path: "classId", select: "name" },
+    { path: "sectionId", select: "name" }
+    ])
 
     res.status(200).json({message: 'Students fetch Sucessfully', enrollments})
   } catch (error) {

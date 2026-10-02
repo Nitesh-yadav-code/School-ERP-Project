@@ -4,15 +4,20 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { styled } from '@mui/material/styles';
 import { FiX } from 'react-icons/fi';
 
-const StyledDialog = styled(Dialog)(({ variant }) => ({
+const StyledDialog = styled(Dialog)(({ variant, theme }) => ({
   '& .MuiDialog-paper': {
     backgroundColor: '#ffffff',
     borderRadius: '12px',
     overflow: 'hidden',
     boxShadow: '0 20px 60px rgba(0, 0, 0, 0.15)',
+  },
+  // When fullScreen, remove border-radius
+  '&.MuiDialog-root .MuiDialog-paper.MuiDialog-paperFullScreen': {
+    borderRadius: 0,
   },
 }));
 
@@ -63,12 +68,14 @@ const CommonModal = ({
   variant = 'default', // 'default' | 'danger' | 'success'
   hideCloseButton = false,
 }) => {
+  const isMobile = useMediaQuery('(max-width:600px)');
   return (
     <StyledDialog
       open={open}
       onClose={onClose}
       maxWidth={maxWidth}
       fullWidth={fullWidth}
+      fullScreen={isMobile}
       variant={variant}
     >
       <StyledDialogTitle variant={variant}>
